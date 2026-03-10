@@ -1,0 +1,31 @@
+.banner{
+background:#0a7f3f;
+color:white;
+padding:60px;
+text-align:center;
+}
+
+.shopbtn{
+background:white;
+color:black;
+padding:10px 20px;
+text-decoration:none;
+}
+
+.categories{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.cat{
+background:white;
+width:200px;
+margin:20px;
+padding:20px;
+box-shadow:0 0 10px gray;
+}
+
+.featured{
+text-align:center;
+}
