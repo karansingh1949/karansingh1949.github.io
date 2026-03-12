@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Cart | Karan Singh Rathore</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    header {
+      background: linear-gradient(45deg,#000,#444);
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .container {
+      padding: 15px;
+    }
+
+    .cart-item {
+      background: white;
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      margin-right: 10px;
+    }
+
+    .cart-details {
+      flex: 1;
+    }
+
+    .cart-details h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .price {
+      color: green;
+      font-weight: bold;
+    }
+
+    .qty {
+      margin-top: 5px;
+    }
+
+    .qty button {
+      padding: 3px 8px;
+      margin: 0 5px;
+      border: none;
+      background: black;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .remove {
+      color: red;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .total-box {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 12px;
+      background: #25D366;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 50px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Karan Singh Rathore 🛍️ Cart</h1>
+  <p>WhatsApp: 7023537535</p>
+</header>
+
+<div class="container" id="cartContainer">
+</div>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function displayCart() {
+
+  let container = document.getElementById("cartContainer");
+
+  if(cart.length === 0){
+    container.innerHTML = "<div class='empty'>Your Cart is Empty 🛒</div>";
+    return;
+  }
+
+  let html = "";
+  let total = 0;
+
+  cart.forEach((item, index) => {
+
+    total += item.price * item.quantity;
+
+    html += `
+      <div class="cart-item">
+        <img src="${item.image}">
+        <div class="cart-details">
+          <h3>${item.name}</h3>
+          <div class="price">₹${item.price}</div>
+
+          <div class="qty">
+            <button onclick="changeQty(${index}, -1)">-</button>
+            ${item.quantity}
+            <button onclick="changeQty(${index}, 1)">+</button>
+          </div>
+
+          <div class="remove" onclick="removeItem(${index})">Remove</div>
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+    <div class="total-box">
+      <h3>Total: ₹${total}</h3>
+      <button class="checkout-btn" onclick="checkout()">Proceed to WhatsApp Checkout</button>
+    </div>
+  `;
+
+  container.innerHTML = html;
+}
+
+function changeQty(index, change){
+  cart[index].quantity += change;
+
+  if(cart[index].quantity <= 0){
+    cart.splice(index,1);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  displayCart();
+}
+
+function removeItem(index){
+  cart.splice(index,1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  displayCart();
+}
+
+function checkout(){
+
+  let message = "Hello Karan Singh Rathore,%0A I want to order:%0A";
+
+  cart.forEach(item => {
+    message += `${item.name} (Qty: ${item.quantity}) - ₹${item.price * item.quantity}%0A`;
+  });
+
+  let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  message += `%0ATotal Amount: ₹${total}`;
+
+  window.open(`https://wa.me/917023537535?text=${message}`, "_blank");
+}
+
+displayCart();
+
+</script>
+
+</body>
+  </html>
