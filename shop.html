@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tanisha Store</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#111;
+color:white;
+}
+
+header{
+background:black;
+padding:15px;
+color:gold;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.products{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:#1a1a1a;
+border:1px solid gold;
+padding:20px;
+width:200px;
+border-radius:15px;
+text-align:center;
+}
+
+.card button{
+background:#25D366;
+border:none;
+padding:8px 15px;
+color:white;
+border-radius:20px;
+cursor:pointer;
+}
+
+.card button:hover{
+background:green;
+}
+
+/* Cart Panel */
+.cart-panel{
+position:fixed;
+right:-400px;
+top:0;
+width:350px;
+height:100%;
+background:#000;
+border-left:2px solid gold;
+padding:20px;
+transition:0.4s;
+overflow:auto;
+}
+
+.cart-panel.active{
+right:0;
+}
+
+.cart-item{
+border-bottom:1px solid gray;
+padding:10px 0;
+}
+
+.qty-btn{
+background:gold;
+color:black;
+border:none;
+padding:2px 8px;
+margin:0 5px;
+cursor:pointer;
+}
+
+.checkout-btn{
+background:#25D366;
+color:white;
+border:none;
+padding:10px;
+width:100%;
+margin-top:10px;
+border-radius:20px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>Tanisha Store</h2>
+<div onclick="toggleCart()" style="cursor:pointer;">
+🛒 Cart (<span id="cartCount">0</span>)
+</div>
+</header>
+
+<div class="products">
+
+<div class="card">
+<h3>Herbal Soap</h3>
+<p>₹40</p>
+<button onclick="addToCart('Herbal Soap',40)">Add to Cart</button>
+</div>
+
+<div class="card">
+<h3>Body Lotion</h3>
+<p>₹190</p>
+<button onclick="addToCart('Body Lotion',190)">Add to Cart</button>
+</div>
+
+<div class="card">
+<h3>Body Wash</h3>
+<p>₹160</p>
+<button onclick="addToCart('Body Wash',160)">Add to Cart</button>
+</div>
+
+</div>
+
+<!-- Cart Panel -->
+<div class="cart-panel" id="cartPanel">
+<h2 style="color:gold;">Your Cart</h2>
+<div id="cartItems"></div>
+<h3>Total: ₹<span id="total">0</span></h3>
+<button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+</div>
+
+<script>
+let cart = [];
+
+function toggleCart(){
+document.getElementById("cartPanel").classList.toggle("active");
+}
+
+function addToCart(name,price){
+let existing = cart.find(item=>item.name===name);
+
+if(existing){
+existing.qty +=1;
+}else{
+cart.push({name:name,price:price,qty:1});
+}
+
+updateCart();
+}
+
+function updateCart(){
+let cartItems = document.getElementById("cartItems");
+cartItems.innerHTML="";
+let total=0;
+
+cart.forEach((item,index)=>{
+total += item.price * item.qty;
+
+cartItems.innerHTML += `
+<div class="cart-item">
+${item.name} - ₹${item.price} x ${item.qty}
+<br>
+<button class="qty-btn" onclick="changeQty(${index},-1)">-</button>
+<button class="qty-btn" onclick="changeQty(${index},1)">+</button>
+<button class="qty-btn" onclick="removeItem(${index})">Remove</button>
+</div>
+`;
+});
+
+document.getElementById("total").innerText=total;
+document.getElementById("cartCount").innerText=cart.length;
+}
+
+function changeQty(index,change){
+cart[index].qty += change;
+if(cart[index].qty<=0){
+cart.splice(index,1);
+}
+updateCart();
+}
+
+function removeItem(index){
+cart.splice(index,1);
+updateCart();
+}
+
+function checkout(){
+if(cart.length==0){
+alert("Cart is empty");
+return;
+}
+
+let message="New Order:%0A";
+let total=0;
+
+cart.forEach(item=>{
+message += item.name+" x "+item.qty+"%0A";
+total += item.price*item.qty;
+});
+
+message += "Total: ₹"+total;
+
+window.open("https://wa.me/917023537535?text="+message,"_blank");
+}
+</script>
+
+</body>
+  </html>
