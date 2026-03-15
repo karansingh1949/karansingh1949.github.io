@@ -1,0 +1,12 @@
+.hero{
+width:100%;
+text-align:center;
+background:black;
+}
+
+.hero img{
+width:100%;
+max-height:500px;
+object-fit:cover;
+border-bottom:5px solid #0a7f3f;
+}
