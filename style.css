@@ -1,0 +1,72 @@
+body {
+background: black;
+color: white;
+font-family: Arial;
+margin: 0;
+}
+
+header {
+background: #111;
+padding: 15px;
+text-align: center;
+}
+
+h1 {
+color: gold;
+}
+
+nav a {
+color: white;
+margin: 10px;
+text-decoration: none;
+}
+
+.hero img {
+width: 100%;
+}
+
+.categories, .products {
+text-align: center;
+padding: 20px;
+}
+
+.card {
+display: inline-block;
+border: 1px solid gold;
+padding: 15px;
+margin: 10px;
+}
+
+.card a {
+color: white;
+text-decoration: none;
+}
+
+.product {
+border: 1px solid gold;
+margin: 20px;
+padding: 20px;
+}
+
+button {
+background: gold;
+border: none;
+padding: 10px;
+cursor: pointer;
+}
+
+.whatsapp {
+position: fixed;
+bottom: 20px;
+right: 20px;
+background: green;
+padding: 10px;
+color: white;
+text-decoration: none;
+}
+
+footer {
+background: #111;
+text-align: center;
+padding: 10px;
+}
